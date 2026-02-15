@@ -6,7 +6,7 @@
 		"deps:check": "node ../../jetbrains/scripts/check-dependencies.js",
 		"deps:patch": "npm run deps:check && cd ../../deps/vscode && git reset --hard HEAD && git clean -fd && git apply ../patches/vscode/jetbrains.patch",
 		"deps:clean": "rm -rf ./deps/vscode/* || true",
-		"deps:copy": "npm run deps:check && npx cpy 'vs/**' './deps/vscode' --cwd '../../deps/vscode/src' --parents && npx cpy 'typings/**' './deps/vscode' --cwd '../../deps/vscode/src' --parents && npx cpy 'vscode-dts/**' './deps/vscode' --cwd '../../deps/vscode/src' --parents",
+		"deps:copy": "npm run deps:check && npx cpy \"vs/**\" \"./deps/vscode\" --cwd \"../../deps/vscode/src\" --parents && npx cpy \"typings/**\" \"./deps/vscode\" --cwd \"../../deps/vscode/src\" --parents && npx cpy \"vscode-dts/**\" \"./deps/vscode\" --cwd \"../../deps/vscode/src\" --parents",
 		"clean": "del-cli ./dist",
 		"build": "tsc",
 		"build:clean": "npm run clean && npm run build",
