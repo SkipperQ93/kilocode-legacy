@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { readFileSync, writeFileSync } from "fs"
-import { join, dirname } from "path"
+import { join, dirname, resolve } from "path"
 import { fileURLToPath } from "url"
 
 const __filename = fileURLToPath(import.meta.url)
@@ -41,8 +41,10 @@ function syncVersion() {
 	}
 }
 
-// Run the sync if this script is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Run the sync if this script is executed directly (cross-platform)
+const executedScriptPath = process.argv[1] ? resolve(fileURLToPath(import.meta.url)) : null
+const invokedPath = process.argv[1] ? resolve(process.argv[1]) : null
+if (executedScriptPath && invokedPath && executedScriptPath === invokedPath) {
 	syncVersion()
 }
 

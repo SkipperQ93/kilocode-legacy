@@ -309,6 +309,20 @@ function checkBuildSystem() {
 	const gradlew = path.join(pluginDir, process.platform === "win32" ? "gradlew.bat" : "gradlew")
 	const buildGradle = path.join(pluginDir, "build.gradle.kts")
 	const gradleProps = path.join(pluginDir, "gradle.properties")
+	const gradlePropsTemplate = path.join(pluginDir, "gradle.properties.template")
+	const srcPackageJson = path.join(projectRoot, "src", "package.json")
+
+	if (!fs.existsSync(gradleProps) && fs.existsSync(gradlePropsTemplate) && fs.existsSync(srcPackageJson)) {
+		try {
+			const version = JSON.parse(fs.readFileSync(srcPackageJson, "utf8")).version
+			const templateContent = fs.readFileSync(gradlePropsTemplate, "utf8")
+			const generatedContent = templateContent.replace(/\{\{VERSION\}\}/g, version)
+			fs.writeFileSync(gradleProps, generatedContent, "utf8")
+			printFix("Generated plugin/gradle.properties from template")
+		} catch (error) {
+			printWarning(`Could not auto-generate gradle.properties: ${error.message}`)
+		}
+	}
 
 	if (fs.existsSync(gradlew) && fs.existsSync(buildGradle) && fs.existsSync(gradleProps)) {
 		printSuccess("Gradle build system is configured")
