@@ -44,7 +44,7 @@
 			"cache": false,
 			"inputs": ["../host/package.json", "../host/package-lock.json"],
 			"outputs": ["../resources/node_modules/**", "../resources/package.json", "../resources/package-lock.json"],
-			"dependsOn": ["copy:resource-host"],
+			"dependsOn": ["clean:resource-nodemodules", "copy:resource-host"],
 			"env": ["PKG_CONFIG_PATH"]
 		},
 		"propDep": {
