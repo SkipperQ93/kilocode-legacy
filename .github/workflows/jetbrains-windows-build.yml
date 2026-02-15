@@ -65,6 +65,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Prepare JetBrains plugin version files
+        run: pnpm --filter @kilo-code/jetbrains-plugin run sync:version
+
       - name: Build JetBrains plugin bundle
         shell: bash
         run: pnpm run jetbrains:bundle
