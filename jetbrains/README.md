@@ -169,6 +169,16 @@ cd jetbrains/plugin
 ./gradlew buildPlugin -PdebugMode=release
 ```
 
+### CI-Equivalent Local Artifact Build
+
+To mirror `.github/workflows/jetbrains-artifact-only.yml` on your machine:
+
+```bash
+pnpm jetbrains:artifact-local
+```
+
+This command enforces Node 20 and Java 21, installs dependencies, runs `pnpm run jetbrains:bundle`, and verifies the produced zip in `jetbrains/plugin/build/distributions/`.
+
 ### Extension Host Only
 
 ```bash

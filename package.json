@@ -29,6 +29,7 @@
 		"link-workspace-packages": "tsx scripts/link-packages.ts",
 		"unlink-workspace-packages": "tsx scripts/link-packages.ts --unlink",
 		"jetbrains:bundle": "turbo jetbrains:bundle --force",
+		"jetbrains:artifact-local": "bash ./scripts/jetbrains-artifact-local.sh",
 		"jetbrains:run-bundle": "turbo jetbrains:run-bundle",
 		"jetbrains:build": "turbo jetbrains:build",
 		"jetbrains:run": "turbo jetbrains:run",
