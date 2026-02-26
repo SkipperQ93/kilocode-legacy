@@ -1,7 +1,7 @@
 name: JetBrains Artifact Only
 on:
-    pull_request:
-        types: [closed]
+    # pull_request:
+    #     types: [closed]
     workflow_dispatch:
 
 env:
