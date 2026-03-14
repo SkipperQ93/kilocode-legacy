@@ -68,6 +68,10 @@ vi.mock("vscode", () => {
 	const showErrorMessage = vi.fn()
 	const openTextDocument = vi.fn().mockResolvedValue({})
 	const showTextDocument = vi.fn().mockResolvedValue(undefined)
+	// kilocode_change start - mock preview commands for JetBrains fallback
+	const executeCommand = vi.fn().mockResolvedValue(undefined)
+	const getCommands = vi.fn().mockResolvedValue(["markdown.showPreview"])
+	// kilocode_change end
 
 	return {
 		window: {
@@ -80,6 +84,12 @@ vi.mock("vscode", () => {
 			workspaceFolders: [{ uri: { fsPath: "/mock/workspace" } }],
 			openTextDocument,
 		},
+		// kilocode_change start - expose commands in mocked vscode module
+		commands: {
+			executeCommand,
+			getCommands,
+		},
+		// kilocode_change end
 	}
 })
 
@@ -1115,3 +1125,34 @@ describe("webviewMessageHandler - downloadErrorDiagnostics", () => {
 		expect(generateErrorDiagnostics).not.toHaveBeenCalled()
 	})
 })
+
+// kilocode_change start - JetBrains markdown preview fallback coverage
+describe("webviewMessageHandler - openMarkdownPreview", () => {
+	beforeEach(() => {
+		vi.clearAllMocks()
+	})
+
+	it("uses markdown preview command when available", async () => {
+		vi.mocked(vscode.commands.getCommands).mockResolvedValueOnce(["markdown.showPreview"])
+
+		await webviewMessageHandler(mockClineProvider, {
+			type: "openMarkdownPreview",
+			text: "# Title",
+		} as any)
+
+		expect(vscode.commands.executeCommand).toHaveBeenCalledWith("markdown.showPreview", expect.any(Object))
+		expect(vscode.window.showTextDocument).not.toHaveBeenCalled()
+	})
+
+	it("falls back to opening the markdown document when preview command is missing", async () => {
+		vi.mocked(vscode.commands.getCommands).mockResolvedValueOnce([])
+
+		await webviewMessageHandler(mockClineProvider, {
+			type: "openMarkdownPreview",
+			text: "# Title",
+		} as any)
+
+		expect(vscode.window.showTextDocument).toHaveBeenCalledWith(expect.any(Object), { preview: true })
+	})
+})
+// kilocode_change end

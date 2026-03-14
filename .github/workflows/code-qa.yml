@@ -2,11 +2,11 @@ name: Code QA Kilo Code
 
 on:
     workflow_dispatch:
-    push:
-        branches: [main]
-    pull_request:
-        types: [opened, reopened, ready_for_review, synchronize]
-        branches: [main]
+    # push:
+    #     branches: [main]
+    # pull_request:
+    #     types: [opened, reopened, ready_for_review, synchronize]
+    #     branches: [main]
 
 env:
     NODE_VERSION: 20.20.0

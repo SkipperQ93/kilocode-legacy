@@ -1,0 +1,81 @@
+name: JetBrains Artifact Only
+on:
+    # pull_request:
+    #     types: [closed]
+    workflow_dispatch:
+
+env:
+    GIT_REF: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || 'main' }}
+    NODE_VERSION: 20.20.0
+    PNPM_VERSION: 10.8.1
+    TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+    TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+jobs:
+    build-jetbrains-artifact:
+        runs-on: ubuntu-latest
+        if: >
+            ( github.event_name == 'pull_request' &&
+            github.event.pull_request.merged == true &&
+            github.event.pull_request.base.ref == 'main' &&
+            contains(github.event.pull_request.title, 'Changeset version bump') ) ||
+            github.event_name == 'workflow_dispatch'
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+              with:
+                  submodules: recursive
+                  lfs: true
+            - name: Install pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: ${{ env.PNPM_VERSION }}
+            - name: Setup Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: "pnpm"
+            - uses: actions/setup-java@v5
+              with:
+                  distribution: "jetbrains"
+                  java-version: "21"
+                  check-latest: false
+                  token: ${{ secrets.GITHUB_TOKEN }}
+            - name: Setup Gradle
+              uses: gradle/actions/setup-gradle@v5
+              with:
+                  cache-read-only: false
+            - name: Install system dependencies
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y \
+                    libx11-dev \
+                    libxkbfile-dev \
+                    pkg-config \
+                    build-essential \
+                    python3
+            - name: Turbo cache setup
+              uses: actions/cache@v5
+              with:
+                  path: .turbo
+                  key: ${{ runner.os }}-turbo-${{ github.sha }}
+                  restore-keys: |
+                      ${{ runner.os }}-turbo-
+            - name: Install dependencies
+              run: pnpm install
+            - name: Create .env file
+              run: echo "KILOCODE_POSTHOG_API_KEY=${{ secrets.POSTHOG_API_KEY }}" >> .env
+            - name: Build JetBrains Plugin
+              run: pnpm run jetbrains:bundle
+              shell: bash
+            - name: Get bundle name
+              id: get_bundle_name
+              run: echo "BUNDLE_NAME=$(node jetbrains/plugin/scripts/get_bundle_name.js)" >> $GITHUB_ENV
+            - name: Verify bundle exists
+              run: test -f "jetbrains/plugin/build/distributions/${{ env.BUNDLE_NAME }}"
+              shell: bash
+            - name: Upload artifact
+              uses: actions/upload-artifact@v6
+              with:
+                  name: ${{ env.BUNDLE_NAME }}
+                  path: jetbrains/plugin/build/distributions/${{ env.BUNDLE_NAME }}

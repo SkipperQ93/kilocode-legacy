@@ -4580,7 +4580,21 @@ export const webviewMessageHandler = async (
 					await fs.writeFile(tempFilePath, message.text, "utf8")
 
 					const doc = await vscode.workspace.openTextDocument(tempFilePath)
-					await vscode.commands.executeCommand("markdown.showPreview", doc.uri)
+					// kilocode_change start - JetBrains fallback when markdown preview command is unavailable
+					const availableCommands = await vscode.commands.getCommands(true)
+					const previewCommand = availableCommands.includes("markdown.showPreview")
+						? "markdown.showPreview"
+						: availableCommands.includes("markdown.showPreviewToSide")
+							? "markdown.showPreviewToSide"
+							: null
+
+					if (previewCommand) {
+						await vscode.commands.executeCommand(previewCommand, doc.uri)
+					} else {
+						provider.log("Markdown preview command not available; opening markdown in editor instead.")
+						await vscode.window.showTextDocument(doc, { preview: true })
+					}
+					// kilocode_change end
 				} catch (error) {
 					const errorMessage = error instanceof Error ? error.message : String(error)
 					provider.log(`Error opening markdown preview: ${errorMessage}`)
