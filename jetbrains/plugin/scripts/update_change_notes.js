@@ -30,16 +30,30 @@ function updateChangeNotes() {
 
 		// Find the version section in changelog
 		// Support multiple formats: ## [vX.X.X], ## [X.X.X], ## X.X.X
-		const escapedVersion = version.replaceAll(".", "\\.")
-		const versionPattern = new RegExp(`## \\[?v?${escapedVersion}\\]?([\\s\\S]*?)(?=## \\[?v?\\d|$)`)
-		const changelogVersionMatch = changelogContent.match(versionPattern)
+		const versionsToTry = [version]
+		if (version.includes("-")) {
+			versionsToTry.push(version.split("-")[0])
+		}
 
-		if (!changelogVersionMatch) {
+		let changelogSection = null
+		let matchedVersion = null
+
+		for (const candidate of versionsToTry) {
+			const escapedVersion = candidate.replaceAll(".", "\\.")
+			const versionPattern = new RegExp(`## \\[?v?${escapedVersion}\\]?([\\s\\S]*?)(?=## \\[?v?\\d|$)`)
+			const changelogVersionMatch = changelogContent.match(versionPattern)
+			if (changelogVersionMatch) {
+				changelogSection = changelogVersionMatch[1].trim()
+				matchedVersion = candidate
+				break
+			}
+		}
+
+		if (!changelogSection) {
 			throw new Error(`Version ${version} not found in CHANGELOG.md`)
 		}
 
-		const changelogSection = changelogVersionMatch[1].trim()
-		console.log(`Found changelog section for version ${version}`)
+		console.log(`Found changelog section for version ${matchedVersion}`)
 
 		// Convert markdown to HTML format suitable for plugin.xml
 		const changeNotesHtml = convertMarkdownToHtml(changelogSection, version)
