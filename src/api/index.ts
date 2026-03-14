@@ -54,6 +54,7 @@ import {
 	VercelAiGatewayHandler,
 	DeepInfraHandler,
 	MiniMaxHandler,
+	OcaHandler, // kilocode_change
 	BasetenHandler,
 	CorethinkHandler,
 	OpenAiCompatibleResponsesHandler, // kilocode_change
@@ -286,6 +287,10 @@ export function buildApiHandler(configuration: ProviderSettings): ApiHandler {
 			return new FeatherlessHandler(options)
 		case "vercel-ai-gateway":
 			return new VercelAiGatewayHandler(options)
+		// kilocode_change start
+		case "oca":
+			return new OcaHandler(options)
+		// kilocode_change end
 		case "minimax":
 			return new MiniMaxHandler(options)
 		case "baseten":

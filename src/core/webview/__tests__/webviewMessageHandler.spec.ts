@@ -384,6 +384,7 @@ describe("webviewMessageHandler - requestRouterModels", () => {
 				chutes: mockModels,
 				poe: mockModels, // kilocode_change
 				zenmux: mockModels,
+				oca: {}, // kilocode_change
 				ollama: mockModels, // kilocode_change
 				lmstudio: {},
 				"vercel-ai-gateway": mockModels,
@@ -495,6 +496,7 @@ describe("webviewMessageHandler - requestRouterModels", () => {
 				kilocode: mockModels,
 				"nano-gpt": mockModels, // kilocode_change
 				aihubmix: mockModels, // kilocode_change
+				oca: {}, // kilocode_change
 				ollama: mockModels, // kilocode_change
 				lmstudio: {},
 				"vercel-ai-gateway": mockModels,
@@ -613,6 +615,7 @@ describe("webviewMessageHandler - requestRouterModels", () => {
 				kilocode: mockModels,
 				"nano-gpt": mockModels,
 				aihubmix: mockModels, // kilocode_change
+				oca: {}, // kilocode_change
 				inception: {},
 				synthetic: {},
 				gemini: mockModels,

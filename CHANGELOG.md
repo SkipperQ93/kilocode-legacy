@@ -1,5 +1,43 @@
 # kilo-code
 
+## 5.10.4
+
+### Patch Changes
+
+- [#54](https://github.com/Kilo-Org/kilocode-legacy/pull/54) [`7de6525`](https://github.com/Kilo-Org/kilocode-legacy/commit/7de652520851d8debad92b72d6cb9dfa10edb399) Thanks [@kilo-code-bot](https://github.com/apps/kilo-code-bot)! - Update onboarding premium models text to reflect new first top-up bonus credits offer
+
+## 5.10.3
+
+### Patch Changes
+
+- [#47](https://github.com/Kilo-Org/kilocode-legacy/pull/47) [`65552ff`](https://github.com/Kilo-Org/kilocode-legacy/commit/65552ff1f501aaecc235882a299c4ae59f31a5a1) Thanks [@kevinvandijk](https://github.com/kevinvandijk)! - Add OpenAI's GPT-5.3-Chat-Latest model support (thanks Roo! / @PeterDaveHello)
+
+- [#47](https://github.com/Kilo-Org/kilocode-legacy/pull/47) [`65552ff`](https://github.com/Kilo-Org/kilocode-legacy/commit/65552ff1f501aaecc235882a299c4ae59f31a5a1) Thanks [@kevinvandijk](https://github.com/kevinvandijk)! - Add OpenAI's GPT-5.4 model support (thanks Roo! / @PeterDaveHello)
+
+## 5.10.2
+
+### Patch Changes
+
+- [#44](https://github.com/Kilo-Org/kilocode-legacy/pull/44) [`b3f72a6`](https://github.com/Kilo-Org/kilocode-legacy/commit/b3f72a6a4a07b20450f6bf4024b29b1b8b79db1b) Thanks [@catgirl3d](https://github.com/catgirl3d)! - feat(providers): add Claude Code Sonnet/Opus 4.6 models to Claude Code and fix OpenAI Codex GPT-5.4 id
+
+## 5.10.1
+
+### Patch Changes
+
+- [#32](https://github.com/Kilo-Org/kilocode-legacy/pull/32) [`b8fda59`](https://github.com/Kilo-Org/kilocode-legacy/commit/b8fda597055785efd17ddba7185f1e2b2a3404f2) Thanks [@dmkononenko](https://github.com/dmkononenko)! - Add gpt-5.4-codex configuration
+
+- [#33](https://github.com/Kilo-Org/kilocode-legacy/pull/33) [`2c17b43`](https://github.com/Kilo-Org/kilocode-legacy/commit/2c17b43787b17c09a8b0955b350ef9c807b50491) Thanks [@kilo-code-bot](https://github.com/apps/kilo-code-bot)! - Use separate marketplace README without deprecation notice for VS Code marketplace listing
+
+## 5.10.0
+
+### Minor Changes
+
+- [#14](https://github.com/Kilo-Org/kilocode-legacy/pull/14) [`de87b8a`](https://github.com/Kilo-Org/kilocode-legacy/commit/de87b8abc046d8343823d236dfe3d8c483695ee6) Thanks [@supreethjavalli](https://github.com/supreethjavalli)! - Add Oracle Code Assist provider
+
+### Patch Changes
+
+- [#13](https://github.com/Kilo-Org/kilocode-legacy/pull/13) [`bdc9626`](https://github.com/Kilo-Org/kilocode-legacy/commit/bdc96264614ec880b1183a36449a1652419fed19) Thanks [@jan-nikolov](https://github.com/jan-nikolov)! - Rename leftover `roo-preview` and `roo-debug` temp filenames to `kilo-preview` and `kilo-debug`
+
 ## 5.9.0
 
 ### Minor Changes
